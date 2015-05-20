@@ -155,6 +155,9 @@ namespace MyWebApp.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //Claim for account (displays logged in as username, rather than email
+                    UserManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.UserName));
+
                     //Setup user with a new AnimeAccount
                     var db = new ApplicationDbContext();
                     var animeAccount = new AnimeAccount { UserName = model.UserName, ApplicationUserId = user.Id };
