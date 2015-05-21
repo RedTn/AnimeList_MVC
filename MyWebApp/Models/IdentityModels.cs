@@ -32,5 +32,7 @@ namespace MyWebApp.Models
 
         //Allow us to work directly with an anime account table
         public DbSet<AnimeAccount> AnimeAccounts { get; set; }
+
+        public DbSet<AnimeList> AnimeLists { get; set; }
     }
 }
