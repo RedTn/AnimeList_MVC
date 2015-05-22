@@ -38,14 +38,14 @@ namespace MyWebApp.Controllers
             {
                 db.AnimeLists.Add(animeList);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return Content("Entry successfully created!", "text/html");
             }
             catch
             {
                 return View();
             }
         }
-
+        
         // GET: AnimeList/Edit/5
         public ActionResult Edit(int id)
         {
