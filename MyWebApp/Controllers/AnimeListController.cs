@@ -34,18 +34,27 @@ namespace MyWebApp.Controllers
         [HttpPost]
         public ActionResult Create(AnimeList animeList)
         {
-            try
+            if (ModelState.IsValid)
             {
-                db.AnimeLists.Add(animeList);
-                db.SaveChanges();
-                return Content("Entry successfully created!", "text/html");
+                var listed = db.AnimeLists.Where(l => l.Title == animeList.Title && l.SeriesType == animeList.SeriesType).SingleOrDefault();
+                if (listed == null)
+                {
+                    db.AnimeLists.Add(animeList);
+                    db.SaveChanges();
+                    return Content("Entry successfully created!", "text/html");
+                }
+                else
+                {
+                    db.AnimeLists.Remove(listed);
+                    db.AnimeLists.Add(animeList);
+                    db.SaveChanges();
+                    return Content("There a series in the database with that title and series type! Entry overriden", "text/html");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
+
         }
-        
+
         // GET: AnimeList/Edit/5
         public ActionResult Edit(int id)
         {
@@ -88,6 +97,11 @@ namespace MyWebApp.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Explore()
+        {
+            return View(db.AnimeLists.ToList());
         }
     }
 }

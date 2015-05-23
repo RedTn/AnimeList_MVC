@@ -1,9 +1,13 @@
-﻿$(function () {
+﻿function toggleCreateState() {
+    $('#loadImage').toggle();
+    $('#result').toggle();
+    $('#submitBtn').toggle();
+}
+
+$(document).ready((function () {
     $('form').submit(function () {
-        $('#result').toggle();
-        $('#loadImage').toggle();
-        $('#submitBtn').toggle();
         if ($(this).valid()) {
+            toggleCreateState();
             $.ajax({
                 url: this.action,
                 type: this.method,
@@ -11,13 +15,18 @@
                 success: function (result) {
                     setTimeout(function () {
                         $('#result').html(result);
-                        $('#loadImage').toggle();
-                        $('#result').toggle();
-                        $('#submitBtn').toggle();
+                        toggleCreateState();
                     }, 1000);
                 }
             });
+            //TODO: Find out how to NOT select the enum dropdown
+            $("form :input:not(:submit)").each(function () {
+                $(this).val("");
+            });
+        }
+        else {
+            $('#result').html("Error, invalid inputs");
         }
         return false;
     });
-});
+}));
