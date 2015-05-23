@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace MyWebApp.Controllers
 {
+    [Authorize]
     public class AnimeListController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
