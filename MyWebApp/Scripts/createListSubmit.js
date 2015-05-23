@@ -19,10 +19,11 @@ $(document).ready((function () {
                     }, 1000);
                 }
             });
-            //TODO: Find out how to NOT select the enum dropdown
-            $("form :input:not(:submit)").each(function () {
+            //TODO: Find better selector than #SeriesType
+            $("form :input:not(:submit):not(#SeriesType)").each(function () {
                 $(this).val("");
             });
+            $('#SeriesType').val(0);
         }
         else {
             $('#result').html("Error, invalid inputs");
