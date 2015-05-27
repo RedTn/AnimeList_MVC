@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "AnimeList", FormMethod.Post, new { enctype = "multipart/form-data" , id = "createForm"}))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>AnimeList</h4>
         <hr />
@@ -45,12 +45,21 @@
                 @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" id="submitBtn"/>
+            @Html.LabelFor(model => model.ImageUpload, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ImageUpload, new { id = "fileUpload", type = "file", htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
             </div>
         </div>
-        <img src="~/Content/Images/ajax_loader_red_512.gif" id="loadImage" style="display:none;" width="200"/>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" id="submitBtn" />
+            </div>
+        </div>
+        <img src="~/Content/Images/ajax_loader_red_512.gif" id="loadImage" style="display:none;" width="200" />
         <div id="result">
 
         </div>

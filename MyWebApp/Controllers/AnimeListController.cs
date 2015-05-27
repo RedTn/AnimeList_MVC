@@ -1,6 +1,8 @@
 ﻿using MyWebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -34,25 +36,52 @@ namespace MyWebApp.Controllers
         [HttpPost]
         public ActionResult Create(AnimeList animeList)
         {
+            var validImageTypes = new string[]
+            {
+                "image/gif",
+                "image/jpeg",
+                "image/pjpeg",
+                "image/png",
+                "image/jpg"
+            };
+
+            string returnString = "Entry successfully created!";
+
             if (ModelState.IsValid)
             {
                 var listed = db.AnimeLists.Where(l => l.Title == animeList.Title && l.SeriesType == animeList.SeriesType).SingleOrDefault();
-                if (listed == null)
+                if (listed != null)
                 {
-                    db.AnimeLists.Add(animeList);
-                    db.SaveChanges();
-                    return Content("Entry successfully created!", "text/html");
-                }
-                else
-                {
+                    returnString = "There a series in the database with that title and series type! Entry overriden";
                     db.AnimeLists.Remove(listed);
-                    db.AnimeLists.Add(animeList);
-                    db.SaveChanges();
-                    return Content("There a series in the database with that title and series type! Entry overriden", "text/html");
                 }
-            }
-            return View();
 
+                //TODO: Find better way to do path literals
+                var uploadDir = @"~\Content\Images";
+
+                if (animeList.ImageUpload != null)
+                {
+                    if (!validImageTypes.Contains(animeList.ImageUpload.ContentType))
+                    {
+                        return Content("Please choose an approriate filetype", "text/html");
+                    }
+                    else
+                    {
+                        var imagePath = Path.Combine(Server.MapPath(uploadDir), animeList.ImageUpload.FileName);
+                        var imageUrl = Path.Combine(uploadDir, animeList.ImageUpload.FileName);
+                        animeList.ImageUpload.SaveAs(imagePath);
+                        animeList.ImageUrl = imageUrl;
+                    }
+                }
+
+                db.AnimeLists.Add(animeList);
+                db.SaveChanges();
+            }
+            else
+            {
+                returnString = "Error occured";
+            }
+            return Content(returnString, "text/html");
         }
 
         // GET: AnimeList/Edit/5

@@ -8,15 +8,18 @@ $(document).ready((function () {
     $('form').submit(function () {
         if ($(this).valid()) {
             toggleCreateState();
+            var formData = new FormData($('#createForm')[0]);
             $.ajax({
                 url: this.action,
                 type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
                     setTimeout(function () {
-                        $('#result').html(result);
                         toggleCreateState();
-                    }, 1000);
+                        $('#result').html(data);
+                    }, 500);
                 }
             });
             //TODO: Find better selector than #SeriesType
@@ -31,3 +34,4 @@ $(document).ready((function () {
         return false;
     });
 }));
+
