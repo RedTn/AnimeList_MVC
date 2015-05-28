@@ -26,7 +26,10 @@ namespace MyWebApp.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public SeriesType SeriesType { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer Number")]
         public int Episodes { get; set; }
+
+        [Range(0.0, 10.0, ErrorMessage="Please enter a demical number between 0.0 and 10.0")]
         public decimal Score { get; set; }
 
         [DataType(DataType.Upload)]
@@ -35,5 +38,15 @@ namespace MyWebApp.Models
         public HttpPostedFileBase ImageUpload { get; set; }
 
         public string ImageUrl { get; set; }
+
+        [NotMapped]
+        public static string[] validImageTypes = new string[]
+            {
+                "image/gif",
+                "image/jpeg",
+                "image/pjpeg",
+                "image/png",
+                "image/jpg"
+            };
     }
 }

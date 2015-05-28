@@ -180,7 +180,6 @@
     <Compile Include="Models\AnimeAccount.cs" />
     <Compile Include="Models\AnimeList.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

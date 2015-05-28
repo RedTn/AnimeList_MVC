@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace MyWebApp.Controllers
@@ -36,15 +37,6 @@ namespace MyWebApp.Controllers
         [HttpPost]
         public ActionResult Create(AnimeList animeList)
         {
-            var validImageTypes = new string[]
-            {
-                "image/gif",
-                "image/jpeg",
-                "image/pjpeg",
-                "image/png",
-                "image/jpg"
-            };
-
             string returnString = "Entry successfully created!";
 
             if (ModelState.IsValid)
@@ -57,11 +49,11 @@ namespace MyWebApp.Controllers
                 }
 
                 //TODO: Find better way to do path literals
-                var uploadDir = @"~\Content\Images";
+                var uploadDir = @"/Content/Images/AnimeList/";
 
                 if (animeList.ImageUpload != null)
                 {
-                    if (!validImageTypes.Contains(animeList.ImageUpload.ContentType))
+                    if (!AnimeList.validImageTypes.Contains(animeList.ImageUpload.ContentType))
                     {
                         return Content("Please choose an approriate filetype", "text/html");
                     }

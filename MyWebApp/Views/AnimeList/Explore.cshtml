@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <td><strong>Title</strong></td>
+            <td><strong>Image</strong></td>
             <td><strong>Type</strong></td>
             <td><strong>Episodes</strong></td>
             <td><strong>Score</strong></td>
@@ -18,6 +19,7 @@
     <tbody data-bind="foreach:currentAnimeList">
         <tr>
             <td data-bind="text:Title"></td>
+            <td align="center"><img width="100" height="100" data-bind="attr:{src: ImageUrl}" /></td>
             <td data-bind="text:SeriesType"></td>
             <td data-bind="text:Episodes"></td>
             <td data-bind="text:Score"></td>         
