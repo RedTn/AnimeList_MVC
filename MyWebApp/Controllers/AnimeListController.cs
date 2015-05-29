@@ -61,6 +61,8 @@ namespace MyWebApp.Controllers
                     {
                         var imagePath = Path.Combine(Server.MapPath(uploadDir), animeList.ImageUpload.FileName);
                         var imageUrl = Path.Combine(uploadDir, animeList.ImageUpload.FileName);
+
+                        //TODO: Will need code to create directory if not exists, make sure method does not invovle race conditions
                         animeList.ImageUpload.SaveAs(imagePath);
                         animeList.ImageUrl = imageUrl;
                     }
