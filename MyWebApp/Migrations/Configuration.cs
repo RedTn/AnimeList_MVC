@@ -10,6 +10,10 @@ namespace MyWebApp.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+
+            //Appharbor, same as Update-Database -Force
+            AutomaticMigrationDataLossAllowed = true; 
+
             ContextKey = "MyWebApp.Models.ApplicationDbContext";
         }
 
