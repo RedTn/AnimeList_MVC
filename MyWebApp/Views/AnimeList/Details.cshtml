@@ -1,5 +1,4 @@
 ﻿@model MyWebApp.Models.AnimeList
-
 @{
     ViewBag.Title = "Details";
 }
@@ -42,14 +41,16 @@
             @Html.DisplayFor(model => model.Score)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
+        @if (Model.ImageUrl != null)
+        {
+            <dt>
+                Image
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-
+            <dd>
+                <img src="@Model.ImageUrl" class="img-responsive" />
+            </dd>
+        }
     </dl>
 </div>
 <input type="button" value="Delete" id="deleteBtn" />
@@ -58,7 +59,8 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to Main", "Index", "Home")
+    @Html.ActionLink("Back to Main", "Index", "Home") |
+    @Html.ActionLink("To Animelist", "Explore")
 </p>
 
 @section Scripts {
@@ -78,6 +80,6 @@
                 });
             });
         }));
-</script>
+    </script>
 }
 

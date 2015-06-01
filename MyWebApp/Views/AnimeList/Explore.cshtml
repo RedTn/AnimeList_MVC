@@ -17,42 +17,44 @@
 
 <div>
     @Html.ActionLink("Back to Main", "Index", "Home")
-</div> 
+</div>
 
-<script src="~/Scripts/jquery-2.1.4.min.js"></script>
-<script src="~/Scripts/knockout-3.3.0.js"></script>
-<script src="~/Scripts/myKnockoutGrid.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/knockout")
+    <script src="~/Scripts/myKnockoutGrid.js"></script>
 
-<script>
+    <script>
 
-    var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-    var PagedGridModel = function (items) {
-        this.items = ko.observableArray(items);
+        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+        var PagedGridModel = function (items) {
+            this.items = ko.observableArray(items);
 
-        this.sortByName = function () {
-            this.items.sort(function (a, b) {
-                return a.Title < b.Title ? -1 : 1;
+            this.sortByName = function () {
+                this.items.sort(function (a, b) {
+                    return a.Title < b.Title ? -1 : 1;
+                });
+            };
+
+            this.jumpToFirstPage = function () {
+                this.gridViewModel.currentPageIndex(0);
+            };
+
+            var urlAction = $('#loader').data('request-url');
+
+            this.gridViewModel = new ko.simpleGrid.viewModel({
+                data: this.items,
+                columns: [
+                    { headerText: "Title", rowText: "Title", rowImage: false, rowId: "Id", rowAction: urlAction},
+                    { headerText: "Image", rowText: false, rowImage: "ImageUrl", rowId: false},
+                    { headerText: "Series Type", rowText: "SeriesType", rowImage: false, rowId: false},
+                    { headerText: "Episodes", rowText: "Episodes", rowImage: false, rowId: false},
+                    { headerText: "Score", rowText: "Score", rowImage: false, rowId: false}
+                ],
+                pageSize: 4
             });
         };
 
-        this.jumpToFirstPage = function () {
-            this.gridViewModel.currentPageIndex(0);
-        };
-
-        var urlAction = $('#loader').data('request-url');
-
-        this.gridViewModel = new ko.simpleGrid.viewModel({
-            data: this.items,
-            columns: [
-                { headerText: "Title", rowText: "Title", rowImage: false, rowId: "Id", rowAction: urlAction},
-                { headerText: "Image", rowText: false, rowImage: "ImageUrl", rowId: false},
-                { headerText: "Series Type", rowText: "SeriesType", rowImage: false, rowId: false},
-                { headerText: "Episodes", rowText: "Episodes", rowImage: false, rowId: false},
-                { headerText: "Score", rowText: "Score", rowImage: false, rowId: false}
-            ],
-            pageSize: 4
-        });
-    };
-
-    ko.applyBindings(new PagedGridModel(initialData));
-</script>
+        ko.applyBindings(new PagedGridModel(initialData));
+    </script>
+}
