@@ -204,10 +204,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\1430783673157.jpg" />
     <Content Include="Content\Images\ajax_loader_red_512.gif" />
-    <Content Include="Content\Images\AnimeList\justice.jpg" />
-    <Content Include="Content\Images\AnimeList\m.jpg" />
-    <Content Include="Content\Images\AnimeList\macaron.png" />
-    <Content Include="Content\Images\AnimeList\sena.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -278,9 +274,12 @@
     <Content Include="Views\AnimeList\Explore_old.cshtml" />
     <Content Include="Views\AnimeList\Create.cshtml" />
     <Content Include="Views\AnimeList\Explore.cshtml" />
+    <Content Include="Views\AnimeList\Details.cshtml" />
+    <Content Include="Views\Shared\ErrorModelNull.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\AnimeList\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

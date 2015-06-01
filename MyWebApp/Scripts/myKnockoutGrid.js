@@ -34,6 +34,7 @@
 
     // Templates used to render the grid
     var templateEngine = new ko.nativeTemplateEngine();
+    var myvar = "yolo";
 
     templateEngine.addTemplate = function (templateName, templateMarkup) {
         document.write("<script type='text/html' id='" + templateName + "'>" + templateMarkup + "<" + "/script>");
@@ -66,18 +67,21 @@
                           <tr data-bind=\"foreach: columns\">\
                                <th data-bind=\"text: headerText\"></th>\
                           </tr>\
-                     </thead>\
+                      </thead>\
                       <tbody data-bind=\"foreach:itemsOnCurrentPage\">\
-       <tr data-bind=\"foreach: $parent.columns\">\
-                                <!-- ko if: rowText != null-->\
-                               <td data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></td>\
+                      <tr data-bind=\"foreach: $parent.columns\">\
+                                <!-- ko if: rowId-->\
+                                    <td><a data-bind=\"attr: { href: rowAction + '/' + $parent[rowId]}\"><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></a></td>\
                                 <!--/ko-->\
-                                <!-- ko if: rowImage != null-->\
-                               <td align=\"center\"><img width=\"100\" height=\"100\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
+                                <!-- ko if: rowText && !rowId-->\
+                                    <td><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></span></td>\
                                 <!--/ko-->\
-                            </tr>\
-    </tbody>\
-                        </table>\
+                                <!-- ko if: rowImage-->\
+                                    <td align=\"center\"><img width=\"100\" height=\"100\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
+                                <!--/ko-->\
+                      </tr>\
+                      </tbody>\
+                 </table>\
         ");
 
     // The "simpleGrid" binding

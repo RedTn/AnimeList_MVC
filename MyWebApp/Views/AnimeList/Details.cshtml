@@ -1,0 +1,83 @@
+﻿@model MyWebApp.Models.AnimeList
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AnimeList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeriesType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeriesType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Episodes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Episodes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageUrl)
+        </dd>
+
+    </dl>
+</div>
+<input type="button" value="Delete" id="deleteBtn" />
+<div id="result">
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to Main", "Index", "Home")
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready((function () {
+            $('#deleteBtn').click(function () {
+                $.ajax({
+                    url: "@Url.Action("Delete", new { id = Model.Id })",
+                    type: "POST",
+                    success: function (response) {
+                        window.location.href = "@Url.Action("Index", "Home")";
+                    },
+                    error: function (response) {
+                        alert("An error occured");
+                    }
+                });
+            });
+        }));
+</script>
+}
+

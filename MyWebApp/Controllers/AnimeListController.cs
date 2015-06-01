@@ -15,6 +15,9 @@ namespace MyWebApp.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //TODO: Find better way to do path literals
+        private const string uploadDir = @"/Content/Images/AnimeList/";
+
         // GET: AnimeList
         public ActionResult Index()
         {
@@ -24,7 +27,23 @@ namespace MyWebApp.Controllers
         // GET: AnimeList/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            AnimeList animeList = (AnimeList)db.AnimeLists.Where(l => l.Id == id).SingleOrDefault();
+            if (animeList != null)
+                return View(animeList);
+            else return View("ErrorModelNull");
+        }
+
+        [HttpPost]
+        public ActionResult Details(AnimeList model)
+        {
+            AnimeList animeList = (AnimeList)db.AnimeLists.Where(l => l.Id == model.Id).SingleOrDefault();
+            if (animeList != null)
+            {
+                db.AnimeLists.Remove(animeList);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            else return View("ErrorModelNull");
         }
 
         // GET: AnimeList/Create
@@ -48,9 +67,6 @@ namespace MyWebApp.Controllers
                     db.AnimeLists.Remove(listed);
                 }
 
-                //TODO: Find better way to do path literals
-                var uploadDir = @"/Content/Images/AnimeList/";
-
                 if (animeList.ImageUpload != null)
                 {
                     if (!AnimeList.validImageTypes.Contains(animeList.ImageUpload.ContentType))
@@ -62,7 +78,7 @@ namespace MyWebApp.Controllers
                         var imagePath = Path.Combine(Server.MapPath(uploadDir), animeList.ImageUpload.FileName);
                         var imageUrl = Path.Combine(uploadDir, animeList.ImageUpload.FileName);
 
-                        //TODO: Will need code to create directory if not exists, make sure method does not invovle race conditions
+                        //TODO: Will need code to create directory if not exists, make sure method does not involve race conditions
                         animeList.ImageUpload.SaveAs(imagePath);
                         animeList.ImageUrl = imageUrl;
                     }
@@ -108,18 +124,24 @@ namespace MyWebApp.Controllers
 
         // POST: AnimeList/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(AnimeList model)
         {
-            try
+            AnimeList animeList = (AnimeList)db.AnimeLists.Where(l => l.Id == model.Id).SingleOrDefault();
+            if (animeList != null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                if (animeList.ImageUrl != null)
+                {
+                    string imagePath = Server.MapPath(animeList.ImageUrl);
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+                db.AnimeLists.Remove(animeList);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
-            catch
-            {
-                return View();
-            }
+            else return View("ErrorModelNull");
         }
 
         public ActionResult Explore()

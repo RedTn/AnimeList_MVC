@@ -3,9 +3,8 @@
 @{
     ViewBag.Title = "Explore";
 }
-
 <h2>Explore</h2>
-
+<div id="loader" data-request-url="@Url.Action("Details")"></div>
 <div data-bind='simpleGrid: gridViewModel, simpleGridTemplate:"anime_list_template"'> </div>
 
 <button data-bind='click: sortByName'>
@@ -14,8 +13,13 @@
 
 <button data-bind='click: jumpToFirstPage, enable: gridViewModel.currentPageIndex'>
     Jump to first page
-</button> 
+</button>
 
+<div>
+    @Html.ActionLink("Back to Main", "Index", "Home")
+</div> 
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <script src="~/Scripts/knockout-3.3.0.js"></script>
 <script src="~/Scripts/myKnockoutGrid.js"></script>
 
@@ -35,14 +39,16 @@
             this.gridViewModel.currentPageIndex(0);
         };
 
+        var urlAction = $('#loader').data('request-url');
+
         this.gridViewModel = new ko.simpleGrid.viewModel({
             data: this.items,
             columns: [
-                { headerText: "Title", rowText: "Title", rowImage: null},
-                { headerText: "Image", rowText: null, rowImage: "ImageUrl"},
-                { headerText: "Series Type", rowText: "SeriesType", rowImage: null},
-                { headerText: "Episodes", rowText: "Episodes", rowImage: null},
-                { headerText: "Score", rowText: "Score", rowImage: null}
+                { headerText: "Title", rowText: "Title", rowImage: false, rowId: "Id", rowAction: urlAction},
+                { headerText: "Image", rowText: false, rowImage: "ImageUrl", rowId: false},
+                { headerText: "Series Type", rowText: "SeriesType", rowImage: false, rowId: false},
+                { headerText: "Episodes", rowText: "Episodes", rowImage: false, rowId: false},
+                { headerText: "Score", rowText: "Score", rowImage: false, rowId: false}
             ],
             pageSize: 4
         });
