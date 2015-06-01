@@ -80,7 +80,6 @@ namespace MyWebApp.Controllers
 
                         //TODO: Will need code to create directory if not exists, make sure method does not involve race conditions
                         //TODO: Security hole, can rewrite same imagepath with diffferent image
-                        if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
 
                         animeList.ImageUpload.SaveAs(imagePath);
                         animeList.ImageUrl = imageUrl;
