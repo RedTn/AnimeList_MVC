@@ -3,7 +3,9 @@ namespace MyWebApp.Migrations
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.IO;
     using System.Linq;
+    using System.Net;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MyWebApp.Models.ApplicationDbContext>
     {
@@ -31,6 +33,8 @@ namespace MyWebApp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            WebClient webClient = new WebClient();
+            webClient.DownloadFile("http://i.imgur.com/SqlLnfo.jpg", @"/Content/Images/AnimeList/Haruhi.jpg");
         }
     }
 }

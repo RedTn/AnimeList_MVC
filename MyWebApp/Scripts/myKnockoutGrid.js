@@ -14,27 +14,48 @@
     ko.simpleGrid = {
         // Defines a view model class you can use to populate a grid
         viewModel: function (configuration) {
+            var self = this;
             this.data = configuration.data;
             this.currentPageIndex = ko.observable(0);
-            this.pageSize = configuration.pageSize || 5;
+            this.pageSize = configuration.pageSize || ko.observable(5);
+            self.iconType = ko.observable("");
+            self.currentColumn = ko.observable("");
 
             // If you don't specify columns configuration, we'll use scaffolding
             this.columns = configuration.columns || getColumnsForScaffolding(ko.unwrap(this.data));
 
             this.itemsOnCurrentPage = ko.computed(function () {
-                var startIndex = this.pageSize * this.currentPageIndex();
-                return ko.unwrap(this.data).slice(startIndex, startIndex + this.pageSize);
+                var size = ko.unwrap(this.pageSize);
+                var startIndex = size * this.currentPageIndex();
+                return ko.unwrap(this.data).slice(startIndex, startIndex + size);
             }, this);
 
             this.maxPageIndex = ko.computed(function () {
-                return Math.ceil(ko.unwrap(this.data).length / this.pageSize) - 1;
+                return Math.ceil(ko.unwrap(this.data).length / ko.unwrap(this.pageSize)) - 1;
             }, this);
+
+            self.sortType = "ascending";
+            self.sortTable = function (viewModel, e) {
+                var orderProp = $(e.target).context.textContent;
+                self.currentColumn(orderProp);
+                self.data.sort(function (left, right) {
+                    leftVal = left[orderProp];
+                    rightVal = right[orderProp];
+                    if (self.sortType == "ascending") {
+                        return leftVal < rightVal ? 1 : -1;
+                    }
+                    else {
+                        return leftVal > rightVal ? 1 : -1;
+                    }
+                });
+                self.sortType = (self.sortType == "ascending") ? "descending" : "ascending";
+                self.iconType((self.sortType == "ascending") ? "glyphicon glyphicon-chevron-up" : "glyphicon glyphicon-chevron-down");
+            };
         }
     };
 
     // Templates used to render the grid
     var templateEngine = new ko.nativeTemplateEngine();
-    var myvar = "yolo";
 
     templateEngine.addTemplate = function (templateName, templateMarkup) {
         document.write("<script type='text/html' id='" + templateName + "'>" + templateMarkup + "<" + "/script>");
@@ -64,8 +85,13 @@
     templateEngine.addTemplate("anime_list_template", "\
                  <table class=\"table table-striped table-bordered\"\"ko-grid\" cellspacing=\"0\">\
                       <thead>\
-                          <tr data-bind=\"foreach: columns\">\
-                               <th data-bind=\"text: headerText\"></th>\
+                          <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\
+                               <th>\
+                                <!-- $parent header is required inside a foreach loop -->\
+                               <a id=\"headerTitle\" data-bind=\"text: headerText, click: $parent.sortTable\"></a>\
+                               <span data-bind=\"attr: { class: $parent.currentColumn() == headerText ? 'isVisible' : 'isHidden' }\">\
+                               <i data-bind=\"attr: { class: $parent.iconType }\"></i>\
+                               </th>\
                           </tr>\
                       </thead>\
                       <tbody data-bind=\"foreach:itemsOnCurrentPage\">\
