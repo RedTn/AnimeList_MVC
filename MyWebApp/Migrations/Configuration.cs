@@ -35,36 +35,36 @@ namespace MyWebApp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            var entry = context.AnimeLists.Where(l => l.Title == "CHENCHEN_v2").SingleOrDefault();
-            if (entry != null)
-            {
-                entry.ImageUrl = "http://i.imgur.com/SqlLnfo.jpg";
-            }
-            entry = context.AnimeLists.Where(l => l.Title == "Kuma_v69").SingleOrDefault();
-            if (entry != null)
-            {
-                entry.ImageUrl = "http://i.imgur.com/RHx9BTk.jpg";
-            }
-            entry = context.AnimeLists.Where(l => l.Title == "BEST GIRL").SingleOrDefault();
-            if (entry != null)
-            {
-                entry.ImageUrl = "http://i.imgur.com/EOZQHI2.gif";
-            }
-            entry = context.AnimeLists.Where(l => l.Title == "They see your dick").SingleOrDefault();
-            if (entry != null)
-            {
-                entry.ImageUrl = "http://i.imgur.com/2bAuGQE.gif";
-            }
-            entry = context.AnimeLists.Where(l => l.Title == "woof").SingleOrDefault();
-            if (entry != null)
-            {
-                entry.ImageUrl = "http://ih0.redbubble.net/image.14896453.9192/sticker,375x360.u1.png";
-            }
-            entry = context.AnimeLists.Where(l => l.Title == "...").SingleOrDefault();
-            if (entry != null)
-            {
-                entry.ImageUrl = "https://33.media.tumblr.com/b21b982ce3d4cdbd35e4e976031e12aa/tumblr_msiczqHAAD1r0bwkso1_400.gif";
-            }
+            //var entry = context.AnimeLists.Where(l => l.Title == "CHENCHEN_v2").SingleOrDefault();
+            //if (entry != null)
+            //{
+            //    entry.ImageUrl = "http://i.imgur.com/SqlLnfo.jpg";
+            //}
+            //entry = context.AnimeLists.Where(l => l.Title == "Kuma_v69").SingleOrDefault();
+            //if (entry != null)
+            //{
+            //    entry.ImageUrl = "http://i.imgur.com/RHx9BTk.jpg";
+            //}
+            //entry = context.AnimeLists.Where(l => l.Title == "BEST GIRL").SingleOrDefault();
+            //if (entry != null)
+            //{
+            //    entry.ImageUrl = "http://i.imgur.com/EOZQHI2.gif";
+            //}
+            //entry = context.AnimeLists.Where(l => l.Title == "They see your dick").SingleOrDefault();
+            //if (entry != null)
+            //{
+            //    entry.ImageUrl = "http://i.imgur.com/2bAuGQE.gif";
+            //}
+            //entry = context.AnimeLists.Where(l => l.Title == "woof").SingleOrDefault();
+            //if (entry != null)
+            //{
+            //    entry.ImageUrl = "http://ih0.redbubble.net/image.14896453.9192/sticker,375x360.u1.png";
+            //}
+            //entry = context.AnimeLists.Where(l => l.Title == "...").SingleOrDefault();
+            //if (entry != null)
+            //{
+            //    entry.ImageUrl = "https://33.media.tumblr.com/b21b982ce3d4cdbd35e4e976031e12aa/tumblr_msiczqHAAD1r0bwkso1_400.gif";
+            //}
         }
     }
 }

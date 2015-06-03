@@ -83,7 +83,7 @@
                         <!-- /ko -->\
                     </div>");
     templateEngine.addTemplate("anime_list_template", "\
-                 <table class=\"table table-striped table-bordered\"\"ko-grid\" cellspacing=\"0\">\
+                 <table class=\"table table-striped table-bordered table-condensed ko-grid\" cellspacing=\"0\">\
                       <thead>\
                           <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\
                                <th>\
