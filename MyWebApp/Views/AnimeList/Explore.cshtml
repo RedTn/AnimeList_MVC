@@ -3,28 +3,8 @@
 @{
     ViewBag.Title = "Explore";
 }
-@*TODO: Move css & js to own file, problem with chervron glyph scaling column*@
-<style type="text/css">
-    .isVisible {
-        display: inline;
-    }
+@*TODO: problem with chervron glyph scaling column*@
 
-    .isHidden {
-        display: none;
-    }
-
-    #headerTitle {
-        cursor: pointer;
-    }
-
-    .disableSelection {
-        -ms-user-select: none; /* IE 10+ */
-        -moz-user-select: -moz-none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-</style>
 <h2>Explore</h2>
 <div id="loader" data-request-url="@Url.Action("Details")"></div>
 <div data-bind='simpleGrid: gridViewModel, simpleGridTemplate:"anime_list_template"'> </div>
@@ -35,12 +15,14 @@
     Jump to first page
 </button>
 
-
-
-
 <div>
     @Html.ActionLink("Back to Main", "Index", "Home")
 </div>
+
+@section head {
+    <link href="~/Styles/ExploreStyle.css" rel="stylesheet" type="text/css" />
+}
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -49,7 +31,6 @@
 
     <script>
         var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-
         var PagedGridModel = function (items) {
             this.items = ko.observableArray(items);
             this.pageArray = [5, 10, 15, 20];
@@ -73,7 +54,6 @@
                 pageSize: this.currentPageSize
             });
         };
-
         ko.applyBindings(new PagedGridModel(initialData));
     </script>
 }

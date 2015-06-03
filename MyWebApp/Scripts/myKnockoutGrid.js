@@ -83,6 +83,7 @@
                         <!-- /ko -->\
                     </div>");
     templateEngine.addTemplate("anime_list_template", "\
+               <div class = \"table-responsive\">\
                  <table class=\"table table-striped table-bordered table-condensed ko-grid\" cellspacing=\"0\">\
                       <thead>\
                           <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\
@@ -108,6 +109,7 @@
                       </tr>\
                       </tbody>\
                  </table>\
+               </div>\
         ");
 
     // The "simpleGrid" binding
