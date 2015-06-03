@@ -131,14 +131,18 @@ namespace MyWebApp.Controllers
             AnimeList animeList = (AnimeList)db.AnimeLists.Where(l => l.Id == model.Id).SingleOrDefault();
             if (animeList != null)
             {
-                if (animeList.ImageUrl != null)
-                {
-                    string imagePath = Server.MapPath(animeList.ImageUrl);
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        System.IO.File.Delete(imagePath);
-                    }
-                }
+                //TODO: Need to handle image file delete
+                //if (animeList.ImageUrl != null)
+                //{
+                //    if (VirtualPathUtility.IsAppRelative(Server.MapPath(animeList.ImageUrl)))
+                //    {
+                //        string imagePath = Server.MapPath(animeList.ImageUrl);
+                //        if (System.IO.File.Exists(imagePath))
+                //        {
+                //            System.IO.File.Delete(imagePath);
+                //        }
+                //    }
+                //}
                 db.AnimeLists.Remove(animeList);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
