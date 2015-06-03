@@ -33,8 +33,8 @@ namespace MyWebApp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            WebClient webClient = new WebClient();
-            webClient.DownloadFile("http://i.imgur.com/SqlLnfo.jpg", @"/Content/Images/AnimeList/Haruhi.jpg");
+            //WebClient webClient = new WebClient();
+            //webClient.DownloadFile("http://i.imgur.com/SqlLnfo.jpg", @"/Content/Images/AnimeList/Haruhi.jpg");
         }
     }
 }
