@@ -92,6 +92,7 @@
                                <a id=\"headerTitle\" data-bind=\"text: headerText, click: $parent.sortTable\"></a>\
                                <span data-bind=\"attr: { class: $parent.currentColumn() == headerText ? 'isVisible' : 'isHidden' }\">\
                                <i data-bind=\"attr: { class: $parent.iconType }\"></i>\
+                               </span>\
                                </th>\
                           </tr>\
                       </thead>\
