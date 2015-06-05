@@ -34,6 +34,14 @@
                 return Math.ceil(ko.unwrap(this.data).length / ko.unwrap(this.pageSize)) - 1;
             }, this);
 
+            this.nextPage = function () {
+                this.currentPageIndex(this.currentPageIndex() + 1);
+            }
+
+            this.previousPage = function () {
+                this.currentPageIndex(this.currentPageIndex() - 1);
+            }
+
             self.sortType = "ascending";
             self.sortTable = function (viewModel, e) {
                 var orderProp = $(e.target).context.textContent;
@@ -76,11 +84,13 @@
                     </table>");
     templateEngine.addTemplate("ko_simpleGrid_pageLinks", "\
                     <div class=\"ko-grid-pageLinks\">\
+                        <span data-bind='click: previousPage,visible:currentPageIndex() > 0' class='glyphicon glyphicon-circle-arrow-left pageChevrons'></span>\
                         <span>Page:</span>\
                         <!-- ko foreach: ko.utils.range(0, maxPageIndex) -->\
                                <a href=\"#\" data-bind=\"text: $data + 1, click: function() { $root.currentPageIndex($data) }, css: { selected: $data == $root.currentPageIndex() }\">\
                             </a>\
                         <!-- /ko -->\
+                        <span data-bind='click: nextPage,visible:currentPageIndex() < maxPageIndex()' class='glyphicon glyphicon-circle-arrow-right pageChevrons'></span>\
                     </div>");
     templateEngine.addTemplate("anime_list_template", "\
                <div class = \"table-responsive\">\
