@@ -41,5 +41,7 @@ namespace MyWebApp.Models
         public DbSet<AnimeAccount> AnimeAccounts { get; set; }
 
         public DbSet<AnimeList> AnimeLists { get; set; }
+
+        public DbSet<LibraryListing> LibraryListings { get; set; }
     }
 }

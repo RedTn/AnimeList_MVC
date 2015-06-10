@@ -107,6 +107,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -181,6 +182,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnimeListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibraryListController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -198,6 +200,7 @@
     <Compile Include="Models\AnimeAccount.cs" />
     <Compile Include="Models\AnimeList.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LibraryListing.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -209,6 +212,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\1430783673157.jpg" />
     <Content Include="Content\Images\ajax_loader_red_512.gif" />
+    <Content Include="Content\messenger\messenger-spinner.css" />
+    <Content Include="Content\messenger\messenger-theme-air.css" />
+    <Content Include="Content\messenger\messenger-theme-block.css" />
+    <Content Include="Content\messenger\messenger-theme-flat.css" />
+    <Content Include="Content\messenger\messenger-theme-future.css" />
+    <Content Include="Content\messenger\messenger-theme-ice.css" />
+    <Content Include="Content\messenger\messenger.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -235,6 +245,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.3.0.debug.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\messenger\messenger-theme-flat.js" />
+    <Content Include="Scripts\messenger\messenger-theme-future.js" />
+    <Content Include="Scripts\messenger\messenger.js" />
+    <Content Include="Scripts\messenger\messenger.min.js" />
     <Content Include="Scripts\myKnockoutGrid.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\npm.js" />
@@ -283,6 +297,7 @@
     <Content Include="Views\AnimeList\Explore.cshtml" />
     <Content Include="Views\AnimeList\Details.cshtml" />
     <Content Include="Views\Shared\ErrorModelNull.cshtml" />
+    <Content Include="Views\LibraryList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

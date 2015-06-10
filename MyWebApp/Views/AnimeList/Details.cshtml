@@ -1,4 +1,5 @@
 ﻿@model MyWebApp.Models.AnimeList
+
 @{
     ViewBag.Title = "Details";
 }
@@ -8,7 +9,22 @@
 <div>
     <h4>AnimeList</h4>
     <hr />
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="libraryBtn">
+            @ViewBag.AddHeader
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="libraryMenu">
+            @foreach (var status in ViewBag.LibraryStatus)
+            {
+                @Html.Raw("<li role=\"presentation\" class=\"statusTerm\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">" + status + "</a></li>")
+            }
+            <li role="presentation" class="divider"></li>
+            <li role="presentation" class="statusTerm"><a role="menuitem" tabindex="-1" href="#">@ViewBag.RemoveHeader</a></li>
+        </ul>
+    </div>
     <dl class="dl-horizontal">
+
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -53,20 +69,47 @@
         }
     </dl>
 </div>
-<input type="button" value="Delete" id="deleteBtn" />
 <div id="result">
 
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to Main", "Index", "Home") |
-    @Html.ActionLink("To Animelist", "Explore")
+    @Html.ActionLink("To Animelist", "Explore") |
+    <input type="button" value="Delete" id="deleteBtn" />
 </p>
+
+@section head {
+    <link href="~/Content/messenger/messenger.css" rel="stylesheet" />
+    <link href="~/Content/messenger/messenger-theme-future.css" rel="stylesheet" />
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/messenger/messenger.min.js"></script>
+    <script src="~/Scripts/messenger/messenger-theme-future.js"></script>
     <script>
         $(document).ready((function () {
+            var modelId = @Model.Id;
+            var messages = {
+                progressMessage: "Saving...",
+                successMessage: "Saved " + "@Model.Title" + " to your library!",
+                errorMessage: "An error has occured",
+                showCloseButton: true,
+                hideAfter: 3
+            };
+            var removeMessages = {
+                progressMessage: "Deleting...",
+                successMessage: "Removed " + "@Model.Title" + " from your library!",
+                errorMessage: "An error has occured",
+                showCloseButton: true,
+                hideAfter: 3
+            };
+
+            Messenger.options = {
+                extraClasses: 'messenger-fixed messenger-on-bottom',
+                theme: 'future'
+            }
             $('#deleteBtn').click(function () {
                 $.ajax({
                     url: "@Url.Action("Delete", new { id = Model.Id })",
@@ -78,6 +121,28 @@
                         alert("An error occured");
                     }
                 });
+            });
+            $('#libraryMenu').on("click", ".statusTerm", function (event) {
+                var libraryStatus = $(this).text();
+                if(libraryStatus == "@ViewBag.RemoveHeader") {
+                    $('#libraryBtn').get(0).innerHTML = "@ViewBag.DefaultAddHeader" + "   <span class=\"caret\"></span>";
+                    Messenger().run(removeMessages, {
+                        url: "@Url.Action("RemoveFromLibrary", new { id = Model.Id })",
+                        type: "POST"
+                    });
+                }
+                else {
+                    $('#libraryBtn').get(0).innerHTML = libraryStatus + "   <span class=\"caret\"></span>";
+                    var data = {};
+                    data["AnimeListId"] = modelId;
+                    data["LibraryStatus"] = libraryStatus;
+                    Messenger().run(messages, {
+                        url: "@Url.Action("AddToLibrary")",
+                        type: "POST",
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(data)
+                    });
+                }
             });
         }));
     </script>

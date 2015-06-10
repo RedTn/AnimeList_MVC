@@ -24,5 +24,7 @@ namespace MyWebApp.Models
         //Entity is smart enough to know we are talking about Id property of the related ApplicationUser property
         [Required]
         public string ApplicationUserId { get; set; }
+
+        public virtual ICollection<LibraryListing> LibraryListings { get; set; }
     }
 }

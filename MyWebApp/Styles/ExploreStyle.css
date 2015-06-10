@@ -19,6 +19,11 @@
     user-select: none;
 }
 
+.img-holder {
+    height: 100px;
+    width: 100px;
+}
+
 .ko-grid-pageLinks .pageChevrons {
     cursor: pointer;
     font-size: 1.2em;

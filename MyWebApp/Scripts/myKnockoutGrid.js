@@ -93,7 +93,6 @@
                         <span data-bind='click: nextPage,visible:currentPageIndex() < maxPageIndex()' class='glyphicon glyphicon-circle-arrow-right pageChevrons'></span>\
                     </div>");
     templateEngine.addTemplate("anime_list_template", "\
-               <div class = \"table-responsive\">\
                  <table class=\"table table-striped table-bordered table-condensed ko-grid\" cellspacing=\"0\">\
                       <thead>\
                           <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\
@@ -115,12 +114,11 @@
                                     <td><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></span></td>\
                                 <!--/ko-->\
                                 <!-- ko if: rowImage-->\
-                                    <td align=\"center\"><img width=\"100\" height=\"100\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
+                                    <td align=\"center\"><img class=\"img-holder img-responsive\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
                                 <!--/ko-->\
                       </tr>\
                       </tbody>\
                  </table>\
-               </div>\
         ");
 
     // The "simpleGrid" binding

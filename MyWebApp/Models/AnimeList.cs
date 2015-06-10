@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace MyWebApp.Models
 {
     public enum SeriesType
     {
-        TV, Movie
+        TV, 
+        Movie
     }
 
     public class AnimeList

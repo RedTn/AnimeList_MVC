@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using System.Net;
 
 namespace MyWebApp.Controllers
 {
@@ -27,6 +29,22 @@ namespace MyWebApp.Controllers
         // GET: AnimeList/Details/5
         public ActionResult Details(int id)
         {
+            var userId = User.Identity.GetUserId();
+            var animeAccountId = db.AnimeAccounts.Where(c => c.ApplicationUserId == userId).First().Id;
+            LibraryListing previousListing = db.LibraryListings.Find(id, animeAccountId);
+            if (previousListing != null)
+            {
+                ViewBag.AddHeader = previousListing.LibraryStatus;
+            }
+            else
+            {
+                ViewBag.AddHeader = "Add to Library";
+            }
+
+            ViewBag.DefaultAddHeader = "Add to Library";
+            ViewBag.LibraryStatus = Enum.GetValues(typeof(LibraryStatus));
+            ViewBag.RemoveHeader = "Remove from library";
+
             AnimeList animeList = (AnimeList)db.AnimeLists.Where(l => l.Id == id).SingleOrDefault();
             if (animeList != null)
                 return View(animeList);
@@ -154,5 +172,48 @@ namespace MyWebApp.Controllers
         {
             return View(db.AnimeLists.ToList());
         }
+
+        [HttpPost]
+        public ActionResult AddToLibrary(LibraryListing model)
+        {
+            if (ModelState.IsValid)
+            {
+                LibraryListing libraryListing = model;
+                var userId = User.Identity.GetUserId();
+                var animeAccountId = db.AnimeAccounts.Where(c => c.ApplicationUserId == userId).First().Id;
+                LibraryListing previousListing = db.LibraryListings.Find(model.AnimeListId, animeAccountId);
+                if (previousListing != null)
+                {
+                    libraryListing.MyScore = previousListing.MyScore;
+                    libraryListing.Progress = previousListing.Progress;
+                    db.LibraryListings.Remove(previousListing);
+                }
+                libraryListing.AnimeAccountId = animeAccountId;
+                db.LibraryListings.Add(libraryListing);
+                db.SaveChanges();
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveFromLibrary(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var animeAccountId = db.AnimeAccounts.Where(c => c.ApplicationUserId == userId).First().Id;
+            LibraryListing previousListing = db.LibraryListings.Find(id, animeAccountId);
+            if (previousListing != null)
+            {
+                db.LibraryListings.Remove(previousListing);
+                db.SaveChanges();
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            else
+            {
+                //Change maybe, throw a different notice if removing null in database
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+        }
+
     }
 }
