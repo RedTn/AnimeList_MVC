@@ -1,0 +1,57 @@
+﻿@model MyWebApp.Models.LibraryListing
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <h4>LibraryListing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AnimeAccount.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnimeAccount.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnimeListId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnimeListId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MyScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MyScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Progress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Progress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LibraryStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LibraryStatus)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to Main", "Index", "Home")
+</p>
