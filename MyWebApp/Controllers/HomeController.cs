@@ -16,8 +16,8 @@ namespace MyWebApp.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            var animeAccountId = db.AnimeAccounts.Where(c=>c.ApplicationUserId == userId).First().Id;
-            ViewBag.AnimeAccountId = animeAccountId;
+            var animeAccountName = db.AnimeAccounts.Where(c=>c.ApplicationUserId == userId).First().UserName;
+            ViewBag.AnimeAccountName = animeAccountName;
             return View();
         }
 

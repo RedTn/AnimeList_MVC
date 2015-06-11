@@ -96,14 +96,14 @@
                 successMessage: "Saved " + "@Model.Title" + " to your library!",
                 errorMessage: "An error has occured",
                 showCloseButton: true,
-                hideAfter: 3
+                hideAfter: 5
             };
             var removeMessages = {
                 progressMessage: "Deleting...",
                 successMessage: "Removed " + "@Model.Title" + " from your library!",
                 errorMessage: "An error has occured",
                 showCloseButton: true,
-                hideAfter: 3
+                hideAfter: 5
             };
 
             Messenger.options = {
@@ -132,6 +132,7 @@
                     });
                 }
                 else {
+                    messages["successMessage"] = "Saved " + "@Model.Title" + " as " + libraryStatus + "!";
                     $('#libraryBtn').get(0).innerHTML = libraryStatus + "   <span class=\"caret\"></span>";
                     var data = {};
                     data["AnimeListId"] = modelId;

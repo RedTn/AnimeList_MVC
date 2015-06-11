@@ -27,8 +27,12 @@ namespace MyWebApp.Controllers
         }
 
         // GET: AnimeList/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var userId = User.Identity.GetUserId();
             var animeAccountId = db.AnimeAccounts.Where(c => c.ApplicationUserId == userId).First().Id;
             LibraryListing previousListing = db.LibraryListings.Find(id, animeAccountId);

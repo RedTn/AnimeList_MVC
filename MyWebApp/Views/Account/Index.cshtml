@@ -1,29 +1,17 @@
 ﻿@model MyWebApp.Models.LibraryListing
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
+<h2>@ViewBag.UserName</h2>
 
 <div>
     <h4>LibraryListing</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.AnimeAccount.UserName)
+            @Html.DisplayNameFor(model => model.AnimeList.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AnimeAccount.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AnimeListId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AnimeListId)
+            @Html.DisplayFor(model => model.AnimeList.Title)
         </dd>
 
         <dt>
@@ -53,5 +41,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to Main", "Index", "Home")
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>

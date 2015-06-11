@@ -17,6 +17,7 @@ namespace MyWebApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -50,6 +51,18 @@ namespace MyWebApp.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        public ActionResult Index(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            AnimeAccount animeAccount = db.AnimeAccounts.Where(a => a.UserName == name).SingleOrDefault();
+            ViewBag.Title = animeAccount.UserName + "'s library";
+            ViewBag.UserName = animeAccount.UserName;
+            return View();
         }
 
         //
