@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MyWebApp.Models;
+using System.Collections.Generic;
 
 namespace MyWebApp.Controllers
 {
@@ -51,18 +52,6 @@ namespace MyWebApp.Controllers
             {
                 _userManager = value;
             }
-        }
-
-        public ActionResult Index(string name)
-        {
-            if (String.IsNullOrEmpty(name))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            AnimeAccount animeAccount = db.AnimeAccounts.Where(a => a.UserName == name).SingleOrDefault();
-            ViewBag.Title = animeAccount.UserName + "'s library";
-            ViewBag.UserName = animeAccount.UserName;
-            return View();
         }
 
         //

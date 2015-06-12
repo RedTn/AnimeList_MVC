@@ -20,7 +20,7 @@
 </div>
 
 @section head {
-    <link href="~/Styles/ExploreStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Styles/koGridStyle.css" rel="stylesheet" type="text/css" />
 }
 
 
@@ -46,11 +46,11 @@
             this.gridViewModel = new ko.simpleGrid.viewModel({
                 data: this.items,
                 columns: [
-                    { headerText: "Title", rowText: "Title", rowImage: false, rowId: "Id", rowAction: urlAction},
-                    { headerText: "Image", rowText: false, rowImage: "ImageUrl", rowId: false},
-                    { headerText: "Series Type", rowText: "SeriesType", rowImage: false, rowId: false},
-                    { headerText: "Episodes", rowText: "Episodes", rowImage: false, rowId: false},
-                    { headerText: "Score", rowText: "Score", rowImage: false, rowId: false}
+                    { headerText: "Title", rowText: "Title", sortTerm: "Title", rowImage: false, rowId: "Id", rowAction: urlAction},
+                    { headerText: "Image", rowText: false, sortTerm: "ImageUrl", rowImage: "ImageUrl", rowId: false},
+                    { headerText: "Type", rowText: "SeriesType", sortTerm: "SeriesType", rowImage: false, rowId: false},
+                    { headerText: "Episodes", rowText: "Episodes", sortTerm: "Episodes", rowImage: false, rowId: false},
+                    { headerText: "Score", rowText: "Score", sortTerm: "Score", rowImage: false, rowId: false}
                 ],
                 pageSize: this.currentPageSize
             });

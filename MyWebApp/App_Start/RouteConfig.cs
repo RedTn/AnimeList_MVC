@@ -13,16 +13,10 @@ namespace MyWebApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //routes.MapRoute(
-            //    name: "AccountNullToHome",
-            //    url: "Account/",
-            //    defaults: new { controller = "Home", action = "Index"}
-            //);
-
             routes.MapRoute(
-                name: "AccountIndex",
-                url: "Account/{name}",
-                defaults: new { controller = "Account", action = "Index", name = "" }
+                name: "UserLibrary",
+                url: "User/{name}",
+                defaults: new { controller = "User", action = "Library", name = "" }
             );
 
             routes.MapRoute(

@@ -44,11 +44,19 @@
 
             self.sortType = "ascending";
             self.sortTable = function (viewModel, e) {
-                var orderProp = $(e.target).context.textContent;
-                self.currentColumn(orderProp);
+                var orderProp = viewModel["sortTerm"];
+                self.currentColumn(viewModel["headerText"]);
                 self.data.sort(function (left, right) {
-                    leftVal = left[orderProp];
-                    rightVal = right[orderProp];
+                    if ($.type(orderProp) == "array") {
+                        $.each(orderProp[0], function (key, value) {
+                            leftVal = left[key][value];
+                            rightVal = right[key][value];
+                        });
+                    }
+                    else {
+                        leftVal = left[orderProp];
+                        rightVal = right[orderProp];
+                    }
                     if (self.sortType == "ascending") {
                         return leftVal < rightVal ? 1 : -1;
                     }
@@ -69,19 +77,7 @@
         document.write("<script type='text/html' id='" + templateName + "'>" + templateMarkup + "<" + "/script>");
     };
 
-    templateEngine.addTemplate("ko_simpleGrid_grid", "\
-                    <table class=\"ko-grid\" cellspacing=\"0\" >\
-                        <thead>\
-                            <tr data-bind=\"foreach: columns\">\
-                               <th data-bind=\"text: headerText\"></th>\
-                            </tr>\
-                        </thead>\
-                        <tbody data-bind=\"foreach: itemsOnCurrentPage\">\
-                           <tr data-bind=\"foreach: $parent.columns\">\
-                               <td data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></td>\
-                            </tr>\
-                        </tbody>\
-                    </table>");
+    //PAGE LINKS
     templateEngine.addTemplate("ko_simpleGrid_pageLinks", "\
                     <div class=\"ko-grid-pageLinks\">\
                         <span data-bind='click: previousPage,visible:currentPageIndex() > 0' class='glyphicon glyphicon-circle-arrow-left pageChevrons'></span>\
@@ -92,7 +88,37 @@
                         <!-- /ko -->\
                         <span data-bind='click: nextPage,visible:currentPageIndex() < maxPageIndex()' class='glyphicon glyphicon-circle-arrow-right pageChevrons'></span>\
                     </div>");
+    //EXPLORE TEMPLATE
     templateEngine.addTemplate("anime_list_template", "\
+                 <table class=\"table table-striped table-bordered table-condensed ko-grid\" cellspacing=\"0\">\
+                      <thead>\
+                          <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\
+                               <th>\
+                                <!-- $parent header is required inside a foreach loop -->\
+                               <a id=\"headerTitle\" data-bind=\"text: headerText, click: $parent.sortTable\"></a>\
+                               <span data-bind=\"attr: { class: $parent.currentColumn() == headerText ? 'isVisible' : 'isHidden' }\">\
+                               <i data-bind=\"attr: { class: $parent.iconType }\"></i>\
+                               </span>\
+                               </th>\
+                          </tr>\
+                      </thead>\
+                      <tbody data-bind=\"foreach:itemsOnCurrentPage\">\
+                      <tr data-bind=\"foreach: $parent.columns\">\
+                                <!-- ko if: rowId-->\
+                                    <td><a data-bind=\"attr: { href: rowAction + '/' + $parent[rowId]}\"><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></a></td>\
+                                <!--/ko-->\
+                                <!-- ko if: rowText && !rowId-->\
+                                    <td><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></span></td>\
+                                <!--/ko-->\
+                                <!-- ko if: rowImage-->\
+                                    <td align=\"center\"><img class=\"img-holder img-responsive\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
+                                <!--/ko-->\
+                      </tr>\
+                      </tbody>\
+                 </table>\
+        ");
+    //USER LIBRARY TEMPLATE 
+    templateEngine.addTemplate("library_list_template", "\
                  <table class=\"table table-striped table-bordered table-condensed ko-grid\" cellspacing=\"0\">\
                       <thead>\
                           <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\

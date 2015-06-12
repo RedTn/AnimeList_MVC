@@ -4,7 +4,7 @@
 @if (Request.IsAuthenticated)
 {
     var identity = (ClaimsIdentity)User.Identity;
-    var name = identity.FindFirstValue(ClaimTypes.GivenName) ?? identity.GetUserName();
+    var userName = identity.FindFirstValue(ClaimTypes.GivenName) ?? identity.GetUserName();
     
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -12,7 +12,8 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink(name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @*@Html.ActionLink(userName, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+            @Html.ActionLink(userName, "Library", "User", routeValues: new { name = userName }, htmlAttributes: null)
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

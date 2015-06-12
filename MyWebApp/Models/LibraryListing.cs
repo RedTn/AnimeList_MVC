@@ -40,6 +40,6 @@ namespace MyWebApp.Models
         [Key]
         [Column(Order = 1)]
         public int AnimeAccountId { get; set; }
-        public virtual AnimeAccount AnimeAccount { get; set; }
+        //public virtual AnimeAccount AnimeAccount { get; set; }
     }
 }

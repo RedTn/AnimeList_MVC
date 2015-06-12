@@ -183,6 +183,7 @@
     <Compile Include="Controllers\AnimeListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -256,7 +257,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Styles\ExploreStyle.css" />
+    <Content Include="Styles\koGridStyle.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -296,7 +297,7 @@
     <Content Include="Views\AnimeList\Explore.cshtml" />
     <Content Include="Views\AnimeList\Details.cshtml" />
     <Content Include="Views\Shared\ErrorModelNull.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\User\Library.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
