@@ -44,7 +44,7 @@
                     { headerText: "AnimeList", rowText: function(item) { return item.AnimeList.Title }, sortTerm: [{"AnimeList":"Title"}], rowImage: false, rowId: false},
                     { headerText: "Progress", rowText: function(item) { return item.Progress + " / " + item.AnimeList.Episodes }, sortTerm: "Progress", rowImage: false, rowId: false},
                     { headerText: "Rating", rowText: function(item) { return item.MyScore.toFixed(1) }, sortTerm: "MyScore", rowImage: false, rowId: false},
-                    { headerText: "Type", rowText: function(item) { return item.AnimeList.SeriesType }, sortTerm: "SeriesType", rowImage: false, rowId: false}
+                    { headerText: "Type", rowText: function(item) { return item.AnimeList.SeriesType }, sortTerm: [{"AnimeList":"SeriesType"}], rowImage: false, rowId: false}
                 ],
                 pageSize: this.currentPageSize
             });
