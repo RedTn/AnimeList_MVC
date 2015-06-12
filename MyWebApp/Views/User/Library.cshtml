@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MyWebApp.Models.LibraryListing>
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Library";
+}
+
+<div>
+    <h4>@ViewBag.UserName</h4>
+    <hr />
+    <div data-bind='simpleGrid: gridViewModel, simpleGridTemplate:"library_list_template"'> </div>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index", "Home") |
+    @Html.ActionLink("Manage my account", "Index", "Manage")
+</p>
+
+@section head {
+    <link href="~/Styles/koGridStyle.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/knockout")
+    <script src="~/Scripts/myKnockoutGrid.js"></script>
+
+    <script>
+        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+        var PagedGridModel = function (items) {
+            var self = this;
+            this.items = ko.observableArray(items);
+            this.pageArray = [10, 50, 100, 200];
+            this.currentPageSize = ko.observable(10);
+
+            this.jumpToFirstPage = function () {
+                this.gridViewModel.currentPageIndex(0);
+            };
+
+            //var urlAction = $('#loader').data('request-url');
+
+            this.gridViewModel = new ko.simpleGrid.viewModel({
+                data: this.items,
+                columns: [
+                    { headerText: "AnimeList", rowText: function(item) { return item.AnimeList.Title }, sortTerm: [{"AnimeList":"Title"}], rowImage: false, rowId: false},
+                    { headerText: "Progress", rowText: function(item) { return item.Progress + " / " + item.AnimeList.Episodes }, sortTerm: "Progress", rowImage: false, rowId: false},
+                    { headerText: "Rating", rowText: function(item) { return item.MyScore.toFixed(1) }, sortTerm: "MyScore", rowImage: false, rowId: false},
+                    { headerText: "Type", rowText: function(item) { return item.AnimeList.SeriesType }, sortTerm: "SeriesType", rowImage: false, rowId: false}
+                ],
+                pageSize: this.currentPageSize
+            });
+
+            //TODO: May be race condition. If this is called before gridViewModel, currentPageIndex() returns old value 
+            this.currentPageSize.subscribe(function(newValue) {
+                var itemsCanHold = (self.gridViewModel.currentPageIndex() + 1) * newValue;
+                var amountItems = ko.unwrap(self.items).length;
+                if(itemsCanHold > amountItems) {
+                    self.gridViewModel.currentPageIndex(self.gridViewModel.maxPageIndex());
+                }
+            });
+        };
+        ko.applyBindings(new PagedGridModel(initialData));
+    </script>
+}
