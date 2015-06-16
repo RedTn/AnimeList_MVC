@@ -119,7 +119,7 @@
         ");
     //USER LIBRARY TEMPLATE 
     templateEngine.addTemplate("library_list_template", "\
-                 <table class=\"table table-striped table-bordered table-condensed ko-grid\" cellspacing=\"0\">\
+                 <table class=\"table table-striped table-condensed ko-grid\" cellspacing=\"0\" id=\"tableLibrary\">\
                       <thead>\
                           <tr data-bind=\"foreach: columns\" class=\"disableSelection\">\
                                <th>\
@@ -132,17 +132,18 @@
                           </tr>\
                       </thead>\
                       <tbody data-bind=\"foreach:itemsOnCurrentPage\">\
-                      <tr data-bind=\"foreach: $parent.columns\">\
+                           <tr data-bind=\"foreach: $parent.columns\" onclick=\"$('.collapse-in').collapse('toggle');\">\
                                 <!-- ko if: rowId-->\
                                     <td><a data-bind=\"attr: { href: rowAction + '/' + $parent[rowId]}\"><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></a></td>\
                                 <!--/ko-->\
                                 <!-- ko if: rowText && !rowId-->\
-                                    <td><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></span></td>\
+                                    <td><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></span>\
+                                    </td>\
                                 <!--/ko-->\
                                 <!-- ko if: rowImage-->\
                                     <td align=\"center\"><img class=\"img-holder img-responsive\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
                                 <!--/ko-->\
-                      </tr>\
+                           </tr>\
                       </tbody>\
                  </table>\
         ");

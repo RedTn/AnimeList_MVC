@@ -9,6 +9,8 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Net;
+using System.Net.Http;
+using System.Web.Helpers;
 
 namespace MyWebApp.Controllers
 {
@@ -75,7 +77,10 @@ namespace MyWebApp.Controllers
         }
 
         // POST: AnimeList/Create
+        // TODO: May need to finish up--> To protect against Cross-Site Request Forgery, validate that the anti-forgery token was received and is valid
+        // for more details on preventing see http://go.microsoft.com/fwlink/?LinkID=517254
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(AnimeList animeList)
         {
             string returnString = "Entry successfully created!";
@@ -130,8 +135,6 @@ namespace MyWebApp.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -217,6 +220,24 @@ namespace MyWebApp.Controllers
                 //Change maybe, throw a different notice if removing null in database
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
+        }
+
+        void ValidateRequestHeader(HttpRequestMessage request)
+        {
+            string cookieToken = "";
+            string formToken = "";
+
+            IEnumerable<string> tokenHeaders;
+            if (request.Headers.TryGetValues("RequestVerificationToken", out tokenHeaders))
+            {
+                string[] tokens = tokenHeaders.First().Split(':');
+                if (tokens.Length == 2)
+                {
+                    cookieToken = tokens[0].Trim();
+                    formToken = tokens[1].Trim();
+                }
+            }
+            AntiForgery.Validate(cookieToken, formToken);
         }
 
     }

@@ -10,17 +10,17 @@
     <h4>AnimeList</h4>
     <hr />
     <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="libraryBtn">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="libraryBtn">
             @ViewBag.AddHeader
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="libraryMenu">
             @foreach (var status in ViewBag.LibraryStatus)
             {
-                @Html.Raw("<li role=\"presentation\" class=\"statusTerm\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">" + status + "</a></li>")
+                @Html.Raw("<li role=\"presentation\" class=\"statusTerm\"><a role=\"menuitem\" tabindex=\"-1\" style=\"cursor:pointer;\">" + status + "</a></li>")
             }
             <li role="presentation" class="divider"></li>
-            <li role="presentation" class="statusTerm"><a role="menuitem" tabindex="-1" href="#">@ViewBag.RemoveHeader</a></li>
+            <li role="presentation" class="statusTerm"><a role="menuitem" tabindex="-1" style="cursor:pointer;">@ViewBag.RemoveHeader</a></li>
         </ul>
     </div>
     <dl class="dl-horizontal">

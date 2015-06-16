@@ -9,12 +9,15 @@ $(document).ready((function () {
         if ($(this).valid()) {
             toggleCreateState();
             var formData = new FormData($('#createForm')[0]);
-            $.ajax({
+            $.ajax("api/values", {
                 url: this.action,
                 type: this.method,
                 data: formData,
                 contentType: false,
                 processData: false,
+                headers: {
+                    'RequestVerificationToken': '@TokenHeaderValue()'
+                },
                 success: function (data) {
                     setTimeout(function () {
                         toggleCreateState();
