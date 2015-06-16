@@ -65,6 +65,26 @@ namespace MyWebApp.Migrations
             {
                 context.AnimeLists.Add(new AnimeList { Title = "...", ImageUrl = "https://33.media.tumblr.com/b21b982ce3d4cdbd35e4e976031e12aa/tumblr_msiczqHAAD1r0bwkso1_400.gif", SeriesType = SeriesType.TV, Episodes = 12, Score = 8.7m });
             }
+            entry = context.AnimeLists.Where(l => l.Title == "tirami").SingleOrDefault();
+            if (entry == null)
+            {
+                context.AnimeLists.Add(new AnimeList { Title = "tirami", ImageUrl = "http://i.imgur.com/DGXQ7Yy.png", SeriesType = SeriesType.Movie, Episodes = 1, Score = 6.96m });
+            }
+            entry = context.AnimeLists.Where(l => l.Title == "tirami2").SingleOrDefault();
+            if (entry == null)
+            {
+                context.AnimeLists.Add(new AnimeList { Title = "tirami2", ImageUrl = "http://i.imgur.com/2X1nRKx.png", SeriesType = SeriesType.TV, Episodes = 12, Score = 3.5m });
+            }
+            entry = context.AnimeLists.Where(l => l.Title == "tirami3").SingleOrDefault();
+            if (entry == null)
+            {
+                context.AnimeLists.Add(new AnimeList { Title = "tirami3", ImageUrl = "http://i.imgur.com/RdfD4xt.gif", SeriesType = SeriesType.TV, Episodes = 24, Score = 4.5m });
+            }
+            entry = context.AnimeLists.Where(l => l.Title == "catcat").SingleOrDefault();
+            if (entry == null)
+            {
+                context.AnimeLists.Add(new AnimeList { Title = "catcat", ImageUrl = "http://i.imgur.com/SNqajX4.gif", SeriesType = SeriesType.Movie, Episodes = 2, Score = 9.1m });
+            }
             context.SaveChanges();
         }
     }
