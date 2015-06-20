@@ -19,9 +19,6 @@ namespace MyWebApp.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //TODO: Find better way to do path literals
-        private const string uploadDir = @"/Content/Images/AnimeList/";
-
         // GET: AnimeList
         public ActionResult Index()
         {
@@ -102,11 +99,14 @@ namespace MyWebApp.Controllers
                     }
                     else
                     {
-                        var imagePath = Path.Combine(Server.MapPath(uploadDir), animeList.ImageUpload.FileName);
-                        var imageUrl = Path.Combine(uploadDir, animeList.ImageUpload.FileName);
+                        var imagePath = Path.Combine(Server.MapPath(AnimeList.uploadDir), animeList.ImageUpload.FileName);
+                        var imageUrl = Path.Combine(AnimeList.uploadDir, animeList.ImageUpload.FileName);
 
-                        //TODO: Will need code to create directory if not exists, make sure method does not involve race conditions
-                        //TODO: Security hole, can rewrite same imagepath with diffferent image
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            imageUrl = AnimeList.FindNewFilePath(imageUrl);
+                            imagePath = Server.MapPath(imageUrl);
+                        }
 
                         animeList.ImageUpload.SaveAs(imagePath);
                         animeList.ImageUrl = imageUrl;

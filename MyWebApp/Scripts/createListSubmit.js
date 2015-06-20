@@ -9,7 +9,7 @@ $(document).ready((function () {
         if ($(this).valid()) {
             toggleCreateState();
             var formData = new FormData($('#createForm')[0]);
-            $.ajax("api/values", {
+            $.ajax({
                 url: this.action,
                 type: this.method,
                 data: formData,
