@@ -22,3 +22,50 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.dropdown-fix {
+    /* Cursor to pointer, and unselectable text */
+    cursor: pointer;
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.dropdown-border li a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.dropdown-menu:before {
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+}
+
+.dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 10px;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    content: '';
+}
+
+.dropdown-condense li:first-child {
+    margin-top: -5px;
+}
+
+.dropdown-condense li:last-child {
+    margin-bottom: -5px;
+}

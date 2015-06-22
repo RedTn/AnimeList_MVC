@@ -17,10 +17,10 @@
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="libraryMenu">
             @foreach (var status in ViewBag.LibraryStatus)
             {
-                @Html.Raw("<li role=\"presentation\" class=\"statusTerm\"><a role=\"menuitem\" tabindex=\"-1\" style=\"cursor:pointer;\">" + status + "</a></li>")
+                @Html.Raw("<li role=\"presentation\" class=\"statusTerm dropdown-fix\"><a role=\"menuitem\" tabindex=\"-1\">" + status + "</a></li>")
             }
             <li role="presentation" class="divider"></li>
-            <li role="presentation" class="statusTerm"><a role="menuitem" tabindex="-1" style="cursor:pointer;">@ViewBag.RemoveHeader</a></li>
+            <li role="presentation" class="statusTerm dropdown-fix"><a role="menuitem" tabindex="-1">@ViewBag.RemoveHeader</a></li>
         </ul>
     </div>
     <dl class="dl-horizontal">
