@@ -42,9 +42,12 @@
             this.gridViewModel = new ko.simpleGrid.viewModel({
                 data: this.items,
                 columns: [
-                    { headerText: "AnimeList", rowText: function(item) { return item.AnimeList.Title }, sortTerm: [{"AnimeList":"Title"}], rowImage: false, rowId: false},
-                    { headerText: "Progress", rowText: function(item) { return item.Progress + " / " + item.AnimeList.Episodes }, sortTerm: "Progress", rowImage: false, rowId: false},
-                    { headerText: "Rating", rowText: function(item) { return item.MyScore.toFixed(1) }, sortTerm: "MyScore", rowImage: false, rowId: false},
+                    { headerText: "Title", rowText: function(item) { return item.AnimeList.Title }, sortTerm: [{"AnimeList":"Title"}], rowImage: false, rowId: false},
+                    { headerText: "Progress", rowText: function(item) { return " / " + item.AnimeList.Episodes }, 
+                        //rowProgress: function(item) { return ko.observable(item.Progress).extend({ numeric: 0 }) },
+                    rowProgress: function(item) { return item.Progress },
+                    sortTerm: "Progress", rowEpisodes: function(item) { return item.AnimeList.Episodes } , rowImage: false, rowId: false},
+                    { headerText: "Rating", rowText: function(item) { return item.MyScore <= 0 ? "-" : item.MyScore.toFixed(1) }, sortTerm: "MyScore", rowImage: false, rowId: false},
                     { headerText: "Type", rowText: function(item) { return item.AnimeList.SeriesType }, sortTerm: [{"AnimeList":"SeriesType"}], rowImage: false, rowId: false}
                 ],
                 pageSize: this.currentPageSize
