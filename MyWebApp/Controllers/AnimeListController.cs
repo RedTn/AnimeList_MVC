@@ -198,5 +198,17 @@ namespace MyWebApp.Controllers
             AntiForgery.Validate(cookieToken, formToken);
         }
 
+        [HttpPost]
+        public ActionResult Clean()
+        {
+            List<AnimeList> AnimeLists = new List<AnimeList>();
+            AnimeLists = db.AnimeLists.Where(l => l.ImageUrl == null).ToList();
+            foreach (var animeList in AnimeLists)
+            {
+                db.AnimeLists.Remove(animeList);
+            }
+            db.SaveChanges();
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
     }
 }

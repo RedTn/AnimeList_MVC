@@ -16,18 +16,44 @@
 </button>
 
 <div>
-    @Html.ActionLink("Back to Main", "Index", "Home")
+    <button type="button" class="btn btn-default" id="clean">
+        <span aria-hidden="true"></span> Clean Listings
+    </button>
 </div>
+
 
 @section head {
     <link href="~/Styles/koGridStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/messenger/messenger.css" rel="stylesheet" />
+    <link href="~/Content/messenger/messenger-theme-future.css" rel="stylesheet" />
 }
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/knockout")
     <script src="~/Scripts/myKnockoutGrid.js"></script>
+    <script src="~/Scripts/messenger/messenger.min.js"></script>
+    <script src="~/Scripts/messenger/messenger-theme-future.js"></script>
+
+    <script>
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom',
+            theme: 'future'
+        }
+        $('#clean').click(function() {
+            $.ajax({
+                url: "@Url.Action("Clean")",
+                type: "POST",
+                success:function() {
+                    location.reload();
+                },
+                error: function() {
+                    Messenger().post("Something went wrong...");
+                }
+            });
+            this.blur();
+        });
+    </script>
 
     <script>
         var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
@@ -55,7 +81,7 @@
                 pageSize: this.currentPageSize
             });
 
-            //TODO: May be race condition. If this is called before gridViewModel, currentPageIndex() returns old value 
+            //TODO: May be race condition. If this is called before gridViewModel, currentPageIndex() returns old value
             this.currentPageSize.subscribe(function(newValue) {
                 var itemsCanHold = (self.gridViewModel.currentPageIndex() + 1) * newValue;
                 var amountItems = ko.unwrap(self.items).length;
