@@ -240,5 +240,14 @@ namespace MyWebApp.Controllers
             AntiForgery.Validate(cookieToken, formToken);
         }
 
+        [HttpPost]
+        public ActionResult UpdateProgress(LibraryListing model)
+        {
+            if (ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
     }
 }

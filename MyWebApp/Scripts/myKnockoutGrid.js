@@ -133,18 +133,12 @@
                       </thead>\
                       <tbody data-bind=\"foreach:itemsOnCurrentPage\">\
                            <tr data-bind=\"foreach: $parent.columns\" onclick=\"$('.collapse-in').collapse('toggle');\">\
-                                <!-- ko if: rowId-->\
-                                    <td><a data-bind=\"attr: { href: rowAction + '/' + $parent[rowId]}\"><span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></a></td>\
-                                <!--/ko-->\
-                                <!-- ko if: rowText && !rowId-->\
+                                <!-- ko if: rowText-->\
                                     <td><span data-bind=\"if: headerText == 'Progress'\">\
                                     <!--<button type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">Test</button> -->\
-                                    <input data-bind=\"numeric: rowEpisodes($parent), value: rowProgress($parent)\" type=\"text\" style=\"width: 40px;text-align:center;\"></input>\
+                                    <input data-bind=\"numeric: rowEpisodes($parent), value: rowProgress($parent), attr: { maxlength: rowEpisodes($parent).toString().length }\" type=\"text\" style=\"width: 40px;text-align:center;\"></input>\
                                     </span>\
                                     <span data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></span></td>\
-                                <!--/ko-->\
-                                <!-- ko if: rowImage-->\
-                                    <td align=\"center\"><img class=\"img-holder img-responsive\" data-bind=\"attr:{src: $parent[rowImage]}\" /></td>\
                                 <!--/ko-->\
                            </tr>\
                       </tbody>\
@@ -163,49 +157,6 @@
             return parseInt(curValue.toString().concat(check_2.toString())) > maxValue ? true : false;
         }
         return true;
-    };
-
-    //TODO: Highlight progress will not replace number if numebr normally would go over max
-    ko.bindingHandlers.numeric = {
-        update: function (element, valueAccessor) {
-            $(element).on("keydown", function (event) {
-                // Allow: backspace, delete, tab, escape, and enter
-                if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
-                    // Allow: Ctrl+A
-                    (event.keyCode == 65 && event.ctrlKey === true) ||
-                    // Allow: home, end, left, right
-                    (event.keyCode == 35 || event.keyCode == 36 || event.keyCode == 37 || event.keyCode == 39))
-                {
-                    // let it happen, don't do anything
-                    return;
-                }
-                else if (event.keyCode == 13) {
-                    $(element).blur();
-                }
-                else {
-                    // Ensure that it is a number and stop the keypress
-                    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) ||
-                        inputOverMax(event.keyCode, element.value, valueAccessor())) {
-                        event.preventDefault();
-                    }
-                }
-                //TODO: without timeout, gets old value; better method?
-                setTimeout(function () {
-                    if (isNaN(element.value)) {
-                        element.value = 0;
-                    }
-                    //Get rid of leading zeros
-                    element.value = parseInt(element.value);
-                }, 1);
-            });
-            $(element).on("focusout", function (event) {
-                if (isNaN(element.value) || element.value == "" || element.value == null) {
-                    element.value = 0;
-                }
-                console.log(element.value);
-            });
-        },
-
     };
 
     // The "simpleGrid" binding

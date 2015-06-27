@@ -182,6 +182,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnimeListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -336,6 +337,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Library\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

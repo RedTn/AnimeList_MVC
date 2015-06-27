@@ -17,16 +17,20 @@
 
 @section head {
     <link href="~/Styles/koGridStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/messenger/messenger.css" rel="stylesheet" />
+    <link href="~/Content/messenger/messenger-theme-future.css" rel="stylesheet" />
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/knockout")
+    <script src="~/Scripts/messenger/messenger.min.js"></script>
+    <script src="~/Scripts/messenger/messenger-theme-future.js"></script>
 
     <script src="~/Scripts/myKnockoutGrid.js"></script>
 
     <script>
-        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+    var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
         var PagedGridModel = function (items) {
             var self = this;
             this.items = ko.observableArray(items);
@@ -42,18 +46,18 @@
             this.gridViewModel = new ko.simpleGrid.viewModel({
                 data: this.items,
                 columns: [
-                    { headerText: "Title", rowText: function(item) { return item.AnimeList.Title }, sortTerm: [{"AnimeList":"Title"}], rowImage: false, rowId: false},
-                    { headerText: "Progress", rowText: function(item) { return " / " + item.AnimeList.Episodes }, 
+                    { headerText: "Title", rowText: function(item) { return item.AnimeList.Title }, sortTerm: [{"AnimeList":"Title"}]},
+                    { headerText: "Progress", rowText: function(item) { return " / " + item.AnimeList.Episodes },
                         //rowProgress: function(item) { return ko.observable(item.Progress).extend({ numeric: 0 }) },
-                    rowProgress: function(item) { return item.Progress },
-                    sortTerm: "Progress", rowEpisodes: function(item) { return item.AnimeList.Episodes } , rowImage: false, rowId: false},
-                    { headerText: "Rating", rowText: function(item) { return item.MyScore <= 0 ? "-" : item.MyScore.toFixed(1) }, sortTerm: "MyScore", rowImage: false, rowId: false},
-                    { headerText: "Type", rowText: function(item) { return item.AnimeList.SeriesType }, sortTerm: [{"AnimeList":"SeriesType"}], rowImage: false, rowId: false}
+                        rowProgress: function(item) { return item.Progress },
+                        sortTerm: "Progress", rowEpisodes: function(item) { return item.AnimeList.Episodes }},
+                    { headerText: "Rating", rowText: function(item) { return item.MyScore <= 0 ? "-" : item.MyScore.toFixed(1) }, sortTerm: "MyScore"},
+                    { headerText: "Type", rowText: function(item) { return item.AnimeList.SeriesType }, sortTerm: [{"AnimeList":"SeriesType"}]}
                 ],
                 pageSize: this.currentPageSize
             });
 
-            //TODO: May be race condition. If this is called before gridViewModel, currentPageIndex() returns old value 
+            //TODO: May be race condition. If this is called before gridViewModel, currentPageIndex() returns old value
             this.currentPageSize.subscribe(function(newValue) {
                 var itemsCanHold = (self.gridViewModel.currentPageIndex() + 1) * newValue;
                 var amountItems = ko.unwrap(self.items).length;
@@ -62,6 +66,80 @@
                 }
             });
         };
+
+        ko.bindingHandlers.numeric = {
+            update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+                $(element).on("keydown", function (event) {
+                    var oldValue = element.value;
+                    // Allow: backspace, delete, tab, escape, and enter
+                    if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
+                        // Allow: Ctrl+A
+                        (event.keyCode == 65 && event.ctrlKey === true) ||
+                        // Allow: home, end, left, right
+                        (event.keyCode == 35 || event.keyCode == 36 || event.keyCode == 37 || event.keyCode == 39))
+                    {
+                        // let it happen, don't do anything
+                        return;
+                    }
+                    else if (event.keyCode == 13) {
+                        $(element).blur();
+                    }
+                    else {
+                        // Ensure that it is a number and stop the keypress
+                        if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)
+                            ) {
+                            event.preventDefault();
+                        }
+                    }
+                    //TODO: without timeout, gets old value; better method?
+                    setTimeout(function () {
+                        if (isNaN(element.value)) {
+                            element.value = 0;
+                        }
+                        if (element.value > valueAccessor()) {
+                            element.value = oldValue;
+                        }
+                        //Get rid of leading zeros
+                        element.value = parseInt(element.value);
+                    }, 1);
+                });
+                $(element).on("focusout", function (event) {
+                    if (isNaN(element.value) || element.value == "" || element.value == null) {
+                        element.value = 0;
+                    }
+                    if (element.value > valueAccessor()) {
+                        element.value = valueAccessor();
+                    }
+                    element.value = parseInt(element.value);
+                    progressAjaxPost(element.value, bindingContext.$parent.AnimeListId);
+                });
+            },
+
+        };
+
+        function progressAjaxPost(progress, animeListId) {
+            var messages = {
+                progressMessage: "Saving...",
+                successMessage: "Progress updated!",
+                errorMessage: "An error has occured",
+                showCloseButton: true,
+                hideAfter: 5
+            };
+            Messenger.options = {
+                extraClasses: 'messenger-fixed messenger-on-bottom',
+                theme: 'future'
+            }
+            var data = {};
+            data["AnimeListId"] = animeListId;
+            data["Progress"] = progress;
+            Messenger().run(messages, {
+                url: "@Url.Action("UpdateProgress", "Library")",
+                type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        });
+        }
+
         ko.applyBindings(new PagedGridModel(initialData));
     </script>
 }
