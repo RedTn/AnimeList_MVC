@@ -127,7 +127,7 @@
                 if(libraryStatus == "@ViewBag.RemoveHeader") {
                     $('#libraryBtn').get(0).innerHTML = "@ViewBag.DefaultAddHeader" + "   <span class=\"caret\"></span>";
                     Messenger().run(removeMessages, {
-                        url: "@Url.Action("RemoveFromLibrary", new { id = Model.Id })",
+                        url: "@Url.Action("RemoveFromLibrary", "Library", new { id = Model.Id })",
                         type: "POST"
                     });
                 }
@@ -138,7 +138,7 @@
                     data["AnimeListId"] = modelId;
                     data["LibraryStatus"] = libraryStatus;
                     Messenger().run(messages, {
-                        url: "@Url.Action("AddToLibrary")",
+                        url: "@Url.Action("AddToLibrary", "Library")",
                         type: "POST",
                         contentType: 'application/json; charset=utf-8',
                         data: JSON.stringify(data)
