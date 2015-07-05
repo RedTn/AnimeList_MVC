@@ -22,6 +22,7 @@ namespace MyWebApp.Controllers
             }
             ViewBag.Title = animeAccount.UserName + "'s library";
             ViewBag.UserName = animeAccount.UserName;
+            ViewBag.LibraryStatus = Enum.GetValues(typeof(LibraryStatus));
 
             List<LibraryListing> accountListings = new List<LibraryListing>();
             accountListings = db.LibraryListings.Where(l => l.AnimeAccountId == animeAccount.Id).ToList();

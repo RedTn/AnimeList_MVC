@@ -8,6 +8,13 @@
 <div>
     <h4>@ViewBag.UserName</h4>
     <hr />
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default">All</button>
+        @foreach (var status in ViewBag.LibraryStatus)
+        {
+            @Html.Raw("<button type=\"button\" class=\"btn btn-default\">" + status + "</button>");
+        }
+    </div>
     <div data-bind='simpleGrid: gridViewModel, simpleGridTemplate:"library_list_template"'> </div>
 </div>
 <p>
@@ -30,7 +37,13 @@
     <script src="~/Scripts/myKnockoutGrid.js"></script>
 
     <script>
-    var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+        $(".btn-group > .btn").click(function(){
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+    </script>
+
+    <script>
+        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
         var PagedGridModel = function (items) {
             var self = this;
             this.items = ko.observableArray(items);
@@ -135,9 +148,9 @@
             Messenger().run(messages, {
                 url: "@Url.Action("UpdateProgress", "Library")",
                 type: "POST",
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        });
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            });
         }
 
         ko.applyBindings(new PagedGridModel(initialData));

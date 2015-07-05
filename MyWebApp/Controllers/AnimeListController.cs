@@ -202,13 +202,20 @@ namespace MyWebApp.Controllers
         public ActionResult Clean()
         {
             List<AnimeList> AnimeLists = new List<AnimeList>();
-            AnimeLists = db.AnimeLists.Where(l => l.ImageUrl == null).ToList();
-            foreach (var animeList in AnimeLists)
+            try
             {
-                db.AnimeLists.Remove(animeList);
+                AnimeLists = db.AnimeLists.Where(l => l.ImageUrl == null).ToList();
+                foreach (var animeList in AnimeLists)
+                {
+                    db.AnimeLists.Remove(animeList);
+                }
+                db.SaveChanges();
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
-            db.SaveChanges();
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            catch (Exception e)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
+            }
         }
     }
 }
