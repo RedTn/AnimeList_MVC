@@ -17,7 +17,8 @@ namespace MyWebApp.Models
         Completed,
         [EnumMember(Value = "On Hold")]
         OnHold,
-        Dropped, 
+        Dropped,
+        [EnumMember(Value = "Plan To Watch")]
         PlanToWatch
     }
 

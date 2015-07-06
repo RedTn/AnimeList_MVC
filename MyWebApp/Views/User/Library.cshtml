@@ -33,6 +33,7 @@
     @Scripts.Render("~/bundles/knockout")
     <script src="~/Scripts/messenger/messenger.min.js"></script>
     <script src="~/Scripts/messenger/messenger-theme-future.js"></script>
+    <script src="~/Scripts/underscore.min.js"></script>
 
     <script src="~/Scripts/myKnockoutGrid.js"></script>
 
@@ -44,6 +45,8 @@
 
     <script>
         var initialData = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+        var groupedData = _.groupBy(initialData, function(d){return d.LibraryStatus});
+        console.log(groupedData);
         var PagedGridModel = function (items) {
             var self = this;
             this.items = ko.observableArray(items);

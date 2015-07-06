@@ -188,6 +188,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Migrations\201505162345272_InitialCreate.cs" />
     <Compile Include="Migrations\201505162345272_InitialCreate.Designer.cs">
       <DependentUpon>201505162345272_InitialCreate.cs</DependentUpon>
@@ -292,6 +293,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Styles\koGridStyle.css" />
     <Content Include="Web.config" />
@@ -334,6 +337,7 @@
     <Content Include="Views\AnimeList\Details.cshtml" />
     <Content Include="Views\Shared\ErrorModelNull.cshtml" />
     <Content Include="Views\User\Library.cshtml" />
+    <Content Include="Scripts\underscore.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
