@@ -111,7 +111,7 @@ namespace MyWebApp.Migrations
             entry = context.AnimeLists.Where(l => l.Title == "Sen to Chihiro no Kamikakushi").SingleOrDefault();
             if (entry == null)
             {
-                context.AnimeLists.Add(new AnimeList { Title = "Sen to Chihiro no Kamikakushi", ImageUrl = "http://cdn.myanimelist.net/images/anime/10/42079.jpg", SeriesType = SeriesType.Movie, Episodes = 1, Score = 8.93m });
+                context.AnimeLists.Add(new AnimeList { Title = "Sen to Chihiro no Kamikakushi", ImageUrl = "http://cdn.myanimelist.net/images/anime/1/199.jpg", SeriesType = SeriesType.Movie, Episodes = 1, Score = 8.93m });
             }
             entry = context.AnimeLists.Where(l => l.Title == "Suzumiya Haruhi no Shoushitsu").SingleOrDefault();
             if (entry == null)

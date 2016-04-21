@@ -9,6 +9,7 @@
 {
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
+    <h4>*This webapp does not use email confirmation for sign up*</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
