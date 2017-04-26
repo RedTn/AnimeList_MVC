@@ -153,6 +153,7 @@ namespace MyWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                HttpContext.Server.ScriptTimeout = 300;
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
